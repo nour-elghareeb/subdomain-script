@@ -19,14 +19,6 @@ CONFIG_PORTS="/etc/apache2/ports.conf"
 DIR_AVAILABLE_SITES="/etc/apache2/sites-available/"
 CONFIG_APACHE="/etc/apache2/apache2.conf"
 DIR_DEFAULT_ROOT=$(grep 'DocumentRoot' /etc/apache2/sites-enabled/000-default.conf | sed 's/^.*DocumentRoot //')/
-
-# {
-    #Param 1 -> port
-    #Param 2 -> subdomain name
-    #Param 3 -> alias
-# }
-#
-
 function request_subdomain_name {
     echo -e "Please enter the sub-domain's name: \c"
     read SUBDOMAIN_NAME
@@ -149,15 +141,15 @@ function configure_virtualhost {
 <VirtualHost *:80>
     ServerName $SUBDOMAIN_NAME.localhost
     ServerAlias $SUBDOMAIN_ALIAS
-    DocumentRoot "$SUBDOMAIN_DIR"
-</VirtualHost>
-<VirtualHost *:$SUBDOMAIN_PORT>
-    ServerName localhost
-    ServerAlias localhost
-    DocumentRoot "$SUBDOMAIN_DIR"
-</VirtualHost>
-    " | sudo tee $PATH_SUB_CONFIG &> /dev/null
-    #if subdomain dir is outside default root /var/www/html add access permission in apache configuration
+    DocumentRoo~/Dropbox/work/scripts/virtualdomainst "$SUBDOMAIN_DIR"
+</VirtualHost>~/Dropbox/work/scripts/virtualdomains
+<VirtualHost *:~/Dropbox/work/scripts/virtualdomains$SUBDOMAIN_PORT>
+    ServerName ~/Dropbox/work/scripts/virtualdomainslocalhost
+    ServerAlias~/Dropbox/work/scripts/virtualdomains localhost
+    DocumentRoo~/Dropbox/work/scripts/virtualdomainst "$SUBDOMAIN_DIR"
+</VirtualHost>~/Dropbox/work/scripts/virtualdomains
+    " | sudo te~/Dropbox/work/scripts/virtualdomainse $PATH_SUB_CONFIG &> /dev/null
+    #if subdoma~/Dropbox/work/scripts/virtualdomainsin dir is outside default root /var/www/html add access permission in apache configuration
     if [[ !  $3 =~ .*$DIR_DEFAULT_ROOT.* ]]; then
 
         echo -e "<Directory "$SUBDOMAIN_DIR">
@@ -217,7 +209,6 @@ request_subdomain_name
 request_alias
 #request subdomain path from user
 request_subdomain_path
-
 #request subdomain port from user
 CT $Purple "Please choose a port nubmer other than 80 to access the sub-domain from your IPv4 directly through LAN."
 request_subdomain_port
@@ -229,22 +220,3 @@ fi
 configure_virtualhost
 CT $Green "Subdomain is installed successfully!"
 exit 0
-
-# #removing words delimiters from text to preserve white-spaces
-# IFS=''
-# #adding a new sites to apache available-sites
-# echo $SUB_CONFIG_FILE | sudo tee $PATH_SUB_NEW_SITE > /dev/null
-# #taking a backup from apache2
-# generate_config_backup
-
-
-# request_subdomain_name
-
-# request_subdomain_port
-# echo $SUBDOMAIN_PORT
-# #request_subdomain_path
-
-
-#configure_virtualhost 1500 test test /var/www/html/test
-#echo -e "$SUB_CONFIG_FILE"
-
