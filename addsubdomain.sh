@@ -125,7 +125,6 @@ function request_subdomain_port {
 function configure_virtualhost {
 
     PATH_SUB_CONFIG=$DIR_AVAILABLE_SITES$SUBDOMAIN_NAME.conf
-
     #Taking necessary backups
     sudo cp $CONFIG_PORTS $DIR_BACKUP"ports.conf_$(date +"%s")"
     sudo cp $CONFIG_HOSTS $DIR_BACKUP"hosts_$(date +"%s")"
@@ -148,8 +147,7 @@ function configure_virtualhost {
     ServerAlias~/Dropbox/work/scripts/virtualdomains localhost
     DocumentRoo~/Dropbox/work/scripts/virtualdomainst "$SUBDOMAIN_DIR"
 </VirtualHost>~/Dropbox/work/scripts/virtualdomains
-    " | sudo te~/Dropbox/work/scripts/virtualdomainse $PATH_SUB_CONFIG &> /dev/null
-    #if subdoma~/Dropbox/work/scripts/virtualdomainsin dir is outside default root /var/www/html add access permission in apache configuration
+    " | sudo tee $PATH_SUB_CONFIG &> /dev/null
     if [[ !  $3 =~ .*$DIR_DEFAULT_ROOT.* ]]; then
 
         echo -e "<Directory "$SUBDOMAIN_DIR">
