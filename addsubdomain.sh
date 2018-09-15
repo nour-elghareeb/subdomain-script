@@ -125,6 +125,7 @@ function request_subdomain_port {
 function configure_virtualhost {
 
     PATH_SUB_CONFIG=$DIR_AVAILABLE_SITES$SUBDOMAIN_NAME.conf
+    echo $PATH_SUB_CONFIG
     #Taking necessary backups
     sudo cp $CONFIG_PORTS $DIR_BACKUP"ports.conf_$(date +"%s")"
     sudo cp $CONFIG_HOSTS $DIR_BACKUP"hosts_$(date +"%s")"
@@ -140,14 +141,15 @@ function configure_virtualhost {
 <VirtualHost *:80>
     ServerName $SUBDOMAIN_NAME.localhost
     ServerAlias $SUBDOMAIN_ALIAS
-    DocumentRoo~/Dropbox/work/scripts/virtualdomainst "$SUBDOMAIN_DIR"
-</VirtualHost>~/Dropbox/work/scripts/virtualdomains
-<VirtualHost *:~/Dropbox/work/scripts/virtualdomains$SUBDOMAIN_PORT>
-    ServerName ~/Dropbox/work/scripts/virtualdomainslocalhost
-    ServerAlias~/Dropbox/work/scripts/virtualdomains localhost
-    DocumentRoo~/Dropbox/work/scripts/virtualdomainst "$SUBDOMAIN_DIR"
-</VirtualHost>~/Dropbox/work/scripts/virtualdomains
+    DocumentRoot "$SUBDOMAIN_DIR"
+</VirtualHost>
+<VirtualHost *:$SUBDOMAIN_PORT>
+    ServerName localhost
+    ServerAlias localhost
+    DocumentRoot "$SUBDOMAIN_DIR"
+</VirtualHost>
     " | sudo tee $PATH_SUB_CONFIG &> /dev/null
+
     if [[ !  $3 =~ .*$DIR_DEFAULT_ROOT.* ]]; then
 
         echo -e "<Directory "$SUBDOMAIN_DIR">
